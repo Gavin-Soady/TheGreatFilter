@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">The Great Filter</string>
+    <string name="window_text">Press the button below to receive a friendly greeting from Android.</string>
+    <string name="button_label">The Great Filter</string>
+    <string name="greeting_text">Welcome to the Great Filter</string>
+
+    <string name="button_addFilter">Add Filter</string>
+    <string name="text_Title">Title</string>
+    <string name="text_titleHint">Enter Title</string>
+
+</resources>
