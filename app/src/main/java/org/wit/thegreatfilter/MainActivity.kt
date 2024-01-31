@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
@@ -70,7 +72,8 @@ class MainActivity : ComponentActivity() {
                     {
                         //ShowToolBar()
                         //ShowAddFilter()
-                        SignupPage()
+                        //SignupPage()
+                        LoginScreen()
                     }
                     Column(modifier = Modifier.fillMaxSize())
                     {
@@ -323,4 +326,72 @@ fun SignupPage() {
 
     }
 
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LoginScreen() {
+
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            val email = remember { mutableStateOf(TextFieldValue()) }
+            val password = remember { mutableStateOf(TextFieldValue()) }
+
+
+            Image(
+                painter = painterResource(id = R.drawable.filter),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(200.dp)
+                    .padding(top = 16.dp)
+                    .padding(8.dp)
+            )
+
+            Text(
+                text = "Login",
+                modifier = Modifier.padding(8.dp),
+                fontSize = 30.sp,
+                fontFamily = FontFamily.SansSerif
+            )
+
+            OutlinedTextField(
+                value = email.value,
+                onValueChange = { email.value = it },
+                modifier = Modifier.padding(8.dp),
+                label = { Text(text = "Email") })
+
+            OutlinedTextField(
+                value = password.value,
+                onValueChange = { password.value = it },
+                modifier = Modifier.padding(8.dp),
+                label = { Text(text = "Password") },
+                visualTransformation = PasswordVisualTransformation()
+            )
+
+            Button(
+                onClick = {
+
+                },
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text(text = "LOGIN")
+            }
+
+            Text(text = "Go to signup",
+                color = Color.Blue,
+                modifier = Modifier
+                    .padding(8.dp)
+            )
+        }
+
+
+    }
 }
