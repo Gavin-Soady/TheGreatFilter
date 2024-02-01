@@ -2,6 +2,7 @@ package org.wit.thegreatfilter
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 // Change Min SDk to 24 to use this
@@ -15,40 +16,48 @@ enum class Screen {
     MatchList,
     MatchChat
 }
-sealed class NavigationItem(val route: String) {
-    object Signup : NavigationItem("Signup")
-    object Login : NavigationItem("Login")
-    object Profile : NavigationItem("Profile")
-    object Match : NavigationItem("Match")
-    object MatchList : NavigationItem("MatchList")
-    object MatchChat : NavigationItem("MatchChat")
+sealed class NavigationScreen(val route: String) {
+    object Signup : NavigationScreen("signup")
+    object Login : NavigationScreen("login")
+    object Profile : NavigationScreen("profile")
+    object Match : NavigationScreen("match")
+    object MatchList : NavigationScreen("matchList")
+    object MatchChat : NavigationScreen("matchChat")
 
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = NavigationItem.Match.route){
+    NavHost(navController = navController, startDestination = NavigationScreen.Match.route){
 
-        composable(NavigationItem.Signup.route){
+        composable(NavigationScreen.Signup.route){
             Signup()
         }
-        composable(NavigationItem.Login.route){
+        composable(NavigationScreen.Login.route){
             Login()
         }
-        composable(NavigationItem.Profile.route){
-            Profile()
+        composable(NavigationScreen.Profile.route){
+            Profile(navController)
         }
-        composable(NavigationItem.Match.route){
-            Match()
+        composable(NavigationScreen.Match.route){
+            Match(navController)
         }
-        composable(NavigationItem.MatchList.route){
+        composable(NavigationScreen.MatchList.route){
             MatchList()
         }
-        composable(NavigationItem.Match.route){
+        composable(NavigationScreen.MatchChat.route){
             MatchChat()
         }
     }
 
+}
+
+
+fun navigateTo(navController: NavController, route: String){
+    navController.navigate(route) {
+        popUpTo(route)
+        launchSingleTop = true
+    }
 
 }

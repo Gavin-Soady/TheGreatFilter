@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "org.wit.thegreatfilter"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "org.wit.thegreatfilter"
