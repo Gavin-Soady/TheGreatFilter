@@ -48,6 +48,9 @@ import org.wit.thegreatfilter.ui.theme.TheGreatFilterTheme
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -60,10 +63,7 @@ class MainActivity : ComponentActivity() {
 
                     Column(modifier = Modifier.fillMaxSize())
                     {
-                        //ShowToolBar()
-                        //ShowAddFilter()
-                        //Signup()
-                        Login()
+                        Navigation()
                     }
                     Column(modifier = Modifier.fillMaxSize())
                     {
@@ -243,6 +243,5 @@ fun ShowSupportText(isError : Boolean)
         )
     else Text(text = "")
 }
-
 
 

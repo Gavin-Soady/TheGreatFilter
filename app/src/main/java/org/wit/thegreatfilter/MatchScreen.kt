@@ -11,13 +11,14 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MatchList() {
+fun Match() {
 
-        Text(
-            text = "Match List Screen",
-            modifier = Modifier.padding(8.dp),
-            fontSize = 30.sp,
-            fontFamily = FontFamily.SansSerif
-        )
+    Text(
+        text = "Match Screen",
+        modifier = Modifier.padding(8.dp),
+        fontSize = 30.sp,
+        fontFamily = FontFamily.SansSerif
+    )
 
-    }
+
+}
