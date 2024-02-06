@@ -1,4 +1,4 @@
-package org.wit.thegreatfilter
+package org.wit.thegreatfilter.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,26 +13,25 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import org.wit.thegreatfilter.ui.navigation.NavMenu
+import org.wit.thegreatfilter.ui.navigation.NavMenuItems
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Profile(navController: NavController) {
+fun Match(navController: NavController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize()
     ){
         Text(
-            text = "Profile Screen",
+            text = "Match Screen",
             modifier = Modifier.padding(8.dp),
             fontSize = 30.sp,
             fontFamily = FontFamily.SansSerif
         )
-        NavMenu(selectedItem = NavMenuItems.PROFILE, navController = navController )
+        NavMenu(selectedItem = NavMenuItems.MATCH, navController = navController )
 
 
     }
-
-
-
 }

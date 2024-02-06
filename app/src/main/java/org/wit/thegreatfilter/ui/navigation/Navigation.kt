@@ -1,4 +1,4 @@
-package org.wit.thegreatfilter
+package org.wit.thegreatfilter.ui.navigation
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -7,6 +7,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 // Change Min SDk to 24 to use this
 import androidx.navigation.compose.rememberNavController
+import org.wit.thegreatfilter.ui.screens.Login
+import org.wit.thegreatfilter.ui.screens.Match
+import org.wit.thegreatfilter.ui.screens.MatchChat
+import org.wit.thegreatfilter.ui.screens.MatchList
+import org.wit.thegreatfilter.ui.screens.Profile
+import org.wit.thegreatfilter.ui.screens.Signup
 
 enum class Screen {
     Match,
@@ -29,7 +35,7 @@ sealed class NavigationScreen(val route: String) {
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = NavigationScreen.Match.route){
+    NavHost(navController = navController, startDestination = NavigationScreen.MatchList.route){
 
         composable(NavigationScreen.Signup.route){
             Signup()
@@ -43,8 +49,8 @@ fun Navigation() {
         composable(NavigationScreen.Match.route){
             Match(navController)
         }
-        composable(NavigationScreen.MatchList.route){
-            MatchList()
+        composable(NavigationScreen.MatchList.route) {
+            MatchList(navController)
         }
         composable(NavigationScreen.MatchChat.route){
             MatchChat()

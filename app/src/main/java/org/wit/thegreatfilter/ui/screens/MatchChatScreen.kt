@@ -1,4 +1,4 @@
-package org.wit.thegreatfilter
+package org.wit.thegreatfilter.ui.screens
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -11,13 +11,14 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MatchList() {
+fun MatchChat() {
 
-        Text(
-            text = "Match List Screen",
-            modifier = Modifier.padding(8.dp),
-            fontSize = 30.sp,
-            fontFamily = FontFamily.SansSerif
-        )
+    Text(
+        text = "Match Chat Screen",
+        modifier = Modifier.padding(8.dp),
+        fontSize = 30.sp,
+        fontFamily = FontFamily.SansSerif
+    )
 
-    }
+
+}

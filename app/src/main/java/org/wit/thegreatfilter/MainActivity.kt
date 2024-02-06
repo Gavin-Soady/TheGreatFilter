@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.wit.thegreatfilter.models.FilterModel
 import org.wit.thegreatfilter.ui.theme.TheGreatFilterTheme
+import org.wit.thegreatfilter.ui.navigation.Navigation
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {

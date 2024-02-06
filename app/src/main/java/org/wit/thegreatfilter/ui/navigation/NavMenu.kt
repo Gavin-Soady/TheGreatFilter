@@ -1,4 +1,4 @@
-package org.wit.thegreatfilter
+package org.wit.thegreatfilter.ui.navigation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,12 +14,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import org.wit.thegreatfilter.R
 
 
 enum class NavMenuItems (val icon : Int, val navItem : NavigationScreen){
-    MATCH(R.drawable.baseline_match,NavigationScreen.Match),
-    CHATLIST(R.drawable.baseline_chat,NavigationScreen.MatchList),
-    PROFILE(R.drawable.baseline_profile,NavigationScreen.Profile)
+    MATCH(R.drawable.baseline_match, NavigationScreen.Match),
+    CHATLIST(R.drawable.baseline_chat, NavigationScreen.MatchList),
+    PROFILE(R.drawable.baseline_profile, NavigationScreen.Profile)
 
 }
 @Composable
