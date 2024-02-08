@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.wit.thegreatfilter.R
+import org.wit.thegreatfilter.utils.navigateTo
 
 
 enum class NavMenuItems (val icon : Int, val navItem : NavigationScreen){
@@ -43,7 +44,7 @@ fun NavMenu(selectedItem: NavMenuItems, navController: NavController) {
                   .padding(4.dp)
                   .weight(1f)
                   .clickable {
-                             navigateTo(navController,item.navItem.route)
+                      navigateTo(navController,item.navItem.route)
                   },
 
           )

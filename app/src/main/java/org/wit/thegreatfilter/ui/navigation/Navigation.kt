@@ -59,7 +59,7 @@ fun Navigation() {
 
 }
 
-
+/*
 fun navigateTo(navController: NavController, route: String){
     navController.navigate(route) {
         popUpTo(route)
@@ -67,3 +67,4 @@ fun navigateTo(navController: NavController, route: String){
     }
 
 }
+ */
