@@ -53,7 +53,7 @@ import org.wit.thegreatfilter.utils.MatchProfile
 import org.wit.thegreatfilter.utils.profiles
 import org.wit.thegreatfilter.utils.rememberSwipeableCardState
 import org.wit.thegreatfilter.utils.swipableCard
-import timber.log.Timber
+//import timber.log.Timber
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,7 +103,7 @@ fun Match(navController: NavController) {
                                         // from the same place
                                     },
                                     onSwipeCancel = {
-                                        Timber.i("Swipeable-Card", "Cancelled swipe")
+                                        //Timber.i("Swipeable-Card", "Cancelled swipe")
                                         hint = "You canceled the swipe"
                                     }
                                 ),

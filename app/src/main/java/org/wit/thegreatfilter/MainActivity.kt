@@ -43,11 +43,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dagger.hilt.android.AndroidEntryPoint
 import org.wit.thegreatfilter.models.FilterModel
 import org.wit.thegreatfilter.ui.theme.TheGreatFilterTheme
 import org.wit.thegreatfilter.ui.navigation.Navigation
-import timber.log.Timber
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
 
@@ -73,14 +75,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        Timber.plant(Timber.DebugTree())
-        Timber.i("TGF MainActivity started..")
+        //Timber.plant(Timber.DebugTree())
+        //Timber.i("TGF MainActivity started..")
 
     }
 }
-
-
-
 
 
 //Keeping this functions for reference put any code above this
@@ -229,7 +228,7 @@ fun addFilter(title: String) {
     val filter = FilterModel()
 
     filter.title = title
-    Timber.i("Title Entered is : $filter.title")
+    //Timber.i("Title Entered is : $filter.title")
 
 }
 

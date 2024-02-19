@@ -2,15 +2,18 @@ package org.wit.thegreatfilter.ui.navigation
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import org.wit.thegreatfilter.TGFViewModel
 import org.wit.thegreatfilter.ui.screens.Login
 import org.wit.thegreatfilter.ui.screens.Match
 import org.wit.thegreatfilter.ui.screens.MatchChat
 import org.wit.thegreatfilter.ui.screens.MatchList
 import org.wit.thegreatfilter.ui.screens.Profile
 import org.wit.thegreatfilter.ui.screens.Signup
+import org.wit.thegreatfilter.utils.NotificationMessage
 
 /*enum class Screen {
     Match,
@@ -33,10 +36,12 @@ sealed class NavigationScreen(val route: String) {
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = NavigationScreen.Match.route){
+    val vm = hiltViewModel<TGFViewModel>()
+    NotificationMessage(vm = vm)
+    NavHost(navController = navController, startDestination = NavigationScreen.Signup.route){
 
         composable(NavigationScreen.Signup.route){
-            Signup()
+            Signup(navController,vm)
         }
         composable(NavigationScreen.Login.route){
             Login()

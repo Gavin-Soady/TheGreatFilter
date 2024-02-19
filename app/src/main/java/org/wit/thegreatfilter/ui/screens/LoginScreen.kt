@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,19 +51,37 @@ fun Login() {
 
 
             Image(
-                painter = painterResource(id = R.drawable.filter),
+                painter = painterResource(id = R.drawable.filterlogo),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(200.dp)
-                    .padding(top = 16.dp)
+                    .width(120.dp)
+                    .padding(top = 36.dp)
                     .padding(8.dp)
+            )
+            Text(
+                text = "The Great Filter",
+                modifier = Modifier
+                    .padding(bottom = 20.dp),
+                fontSize = 20.sp,
+                fontFamily = FontFamily.SansSerif,
+                color = Color.Gray
             )
 
             Text(
-                text = "Login",
+                text = "Sign in",
+                textAlign = TextAlign.Start,
                 modifier = Modifier.padding(8.dp),
                 fontSize = 30.sp,
-                fontFamily = FontFamily.SansSerif
+                fontFamily = FontFamily.SansSerif,
+            )
+
+            Text(
+                text = "Hi there! Have we got job for you!",
+                modifier = Modifier.padding(8.dp),
+                fontSize = 12.sp,
+                fontFamily = FontFamily.SansSerif,
+                color = Color.Gray,
+                textAlign = TextAlign.End
             )
 
             OutlinedTextField(
@@ -83,14 +103,17 @@ fun Login() {
 
                 },
                 modifier = Modifier.padding(8.dp)
+                    .width(280.dp),
+                shape = RoundedCornerShape(10),
             ) {
-                Text(text = "LOGIN")
+                Text(text = "Sign in")
             }
 
-            Text(text = "Go to signup",
-                color = Color.Blue,
+            Text(text = "Forgot Password                      Sign Up",
+                color = Color.Gray,
                 modifier = Modifier
                     .padding(8.dp)
+                    .padding(top = 180.dp)
             )
         }
 

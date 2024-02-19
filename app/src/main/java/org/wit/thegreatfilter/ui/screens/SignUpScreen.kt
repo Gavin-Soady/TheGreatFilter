@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -23,22 +24,26 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import org.wit.thegreatfilter.R
+import org.wit.thegreatfilter.TGFViewModel
+import org.wit.thegreatfilter.utils.CommonProgressSpinner
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
 @Composable
-fun Signup() {
+fun Signup(navController: NavController, vm: TGFViewModel) {
 
+    //CheckSignedIn(vm = vm, navController = navController)
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
+                .padding(top = 40.dp)
             ,horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
@@ -50,19 +55,19 @@ fun Signup() {
             val focus = LocalFocusManager.current
 
             Image(
-                painter = painterResource(id = R.drawable.filter),
+                painter = painterResource(id = R.drawable.filterlogo),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(200.dp)
+                    .width(110.dp)
                     .padding(top = 16.dp)
-                    .padding(8.dp)
-            )
 
+            )
             Text(
                 text = "Signup",
+                textAlign = TextAlign.Start,
                 modifier = Modifier.padding(8.dp),
                 fontSize = 30.sp,
-                fontFamily = FontFamily.SansSerif
+                fontFamily = FontFamily.SansSerif,
             )
 
             OutlinedTextField(
@@ -85,24 +90,40 @@ fun Signup() {
                 visualTransformation = PasswordVisualTransformation()
             )
 
+            OutlinedTextField(
+                value = passwordState.value,
+                onValueChange = { passwordState.value = it },
+                modifier = Modifier.padding(8.dp),
+                label = { Text(text = "Confirm Password") },
+                visualTransformation = PasswordVisualTransformation()
+            )
+
             Button(
                 onClick = {
                     focus.clearFocus(force = true)
 
+
                 },
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier
+                    .padding(8.dp)
+                    .width(280.dp),
+                shape = RoundedCornerShape(5),
+
             ) {
-                Text(text = "SIGN UP")
+                Text(text = "Sign up")
             }
 
             Text(
-                text = "Go to login",
+                text = "Go to Sign in",
                 color = Color.Black,
                 modifier = Modifier
                     .padding(8.dp)
 
             )
         }
+        val isLoading = vm.inProgress.value
+        if(isLoading)
+            CommonProgressSpinner()
 
     }
 
