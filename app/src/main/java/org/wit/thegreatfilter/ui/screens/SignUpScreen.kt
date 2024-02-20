@@ -101,6 +101,11 @@ fun Signup(navController: NavController, vm: TGFViewModel) {
             Button(
                 onClick = {
                     focus.clearFocus(force = true)
+                    vm.onSignup(
+                        usernameState.value.text,
+                        emailState.value.text,
+                        passwordState.value.text
+                    )
 
 
                 },
