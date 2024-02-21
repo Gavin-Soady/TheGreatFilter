@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -15,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import org.wit.thegreatfilter.TGFViewModel
+import org.wit.thegreatfilter.ui.navigation.NavigationScreen
 
 
 fun navigateTo(navController: NavController, route: String){
@@ -47,4 +50,20 @@ fun NotificationMessage(vm: TGFViewModel) {
     val notifMessage = notifState?.getContentOrNull()
     if (!notifMessage.isNullOrEmpty())
         Toast.makeText(LocalContext.current, notifMessage, Toast.LENGTH_SHORT).show()
+}
+
+@Composable
+fun CheckSignedIn(vm: TGFViewModel, navController: NavController ){
+    val alreadyLoggedIn = remember { mutableStateOf(false) }
+    val signedIn = vm.signedIn.value
+
+
+    if (signedIn && !alreadyLoggedIn.value ){
+        alreadyLoggedIn.value = true
+        navController.navigate(NavigationScreen.Match.route){
+            //reset back button (TrackStack)
+            popUpTo(0)
+        }
+    }
+
 }

@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import org.wit.thegreatfilter.R
 import org.wit.thegreatfilter.TGFViewModel
+import org.wit.thegreatfilter.utils.CheckSignedIn
 import org.wit.thegreatfilter.utils.CommonProgressSpinner
 
 
@@ -37,7 +38,8 @@ import org.wit.thegreatfilter.utils.CommonProgressSpinner
 @Composable
 fun Signup(navController: NavController, vm: TGFViewModel) {
 
-    //CheckSignedIn(vm = vm, navController = navController)
+    CheckSignedIn(vm = vm, navController = navController)
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
