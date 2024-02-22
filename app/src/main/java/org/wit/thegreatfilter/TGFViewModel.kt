@@ -30,7 +30,7 @@ class TGFViewModel @Inject constructor(
 
 
     init{
-        auth.signOut()
+        //auth.signOut()
         val currentUser = auth.currentUser
         signedIn.value = currentUser != null
         currentUser?.uid?.let {
@@ -68,6 +68,34 @@ class TGFViewModel @Inject constructor(
                 handleException(it)
             }
     }
+
+    fun onLogin ( email: String, pass: String) {
+
+        if (email.isEmpty() or pass.isEmpty()) {
+
+            handleException(customMessage = "Please fill in ALL fields")
+            return
+        }
+
+        inProgress.value = true
+        auth.signInWithEmailAndPassword(email, pass)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    inProgress.value = false
+                    signedIn.value = true
+                    auth.currentUser?.uid?.let {
+                        getUserData(it)
+
+                    }
+                } else
+                    handleException(task.exception, "Login Failed")
+            }
+            .addOnFailureListener {
+                handleException(it, "Login Failed")
+            }
+
+    }
+
 
     private fun createOrUpdateProfile(
         name: String? = null,

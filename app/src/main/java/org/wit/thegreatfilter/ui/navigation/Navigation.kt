@@ -44,7 +44,7 @@ fun Navigation() {
             Signup(navController,vm)
         }
         composable(NavigationScreen.Login.route){
-            Login()
+            Login(navController,vm)
         }
         composable(NavigationScreen.Profile.route){
             Profile(navController)

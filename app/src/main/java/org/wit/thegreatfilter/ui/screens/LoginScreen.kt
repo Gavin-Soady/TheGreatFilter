@@ -1,6 +1,7 @@
 package org.wit.thegreatfilter.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,16 +27,22 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import org.wit.thegreatfilter.R
+import org.wit.thegreatfilter.TGFViewModel
+import org.wit.thegreatfilter.ui.navigation.NavigationScreen
+import org.wit.thegreatfilter.utils.CheckSignedIn
+import org.wit.thegreatfilter.utils.CommonProgressSpinner
+import org.wit.thegreatfilter.utils.navigateTo
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun Login() {
+fun Login(navController: NavController, vm: TGFViewModel) {
 
+    CheckSignedIn(vm = vm, navController = navController)
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -46,8 +53,11 @@ fun Login() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            val email = remember { mutableStateOf(TextFieldValue()) }
-            val password = remember { mutableStateOf(TextFieldValue()) }
+            //val usernameState = remember { mutableStateOf(TextFieldValue()) }
+            val emailState = remember { mutableStateOf(TextFieldValue()) }
+            val passwordState = remember { mutableStateOf(TextFieldValue()) }
+
+            //val focus = LocalFocusManager.current
 
 
             Image(
@@ -85,14 +95,14 @@ fun Login() {
             )
 
             OutlinedTextField(
-                value = email.value,
-                onValueChange = { email.value = it },
+                value = emailState.value,
+                onValueChange = { emailState.value = it },
                 modifier = Modifier.padding(8.dp),
                 label = { Text(text = "Email") })
 
             OutlinedTextField(
-                value = password.value,
-                onValueChange = { password.value = it },
+                value = passwordState.value,
+                onValueChange = { passwordState.value = it },
                 modifier = Modifier.padding(8.dp),
                 label = { Text(text = "Password") },
                 visualTransformation = PasswordVisualTransformation()
@@ -100,13 +110,18 @@ fun Login() {
 
             Button(
                 onClick = {
+                      vm.onLogin(
+                          emailState.value.text,
+                          passwordState.value.text,
+
+                      )
 
                 },
                 modifier = Modifier.padding(8.dp)
                     .width(280.dp),
                 shape = RoundedCornerShape(10),
             ) {
-                Text(text = "Sign in")
+                Text(text = "Login")
             }
 
             Text(text = "Forgot Password                      Sign Up",
@@ -114,9 +129,13 @@ fun Login() {
                 modifier = Modifier
                     .padding(8.dp)
                     .padding(top = 180.dp)
+                    .clickable{ navigateTo(navController, NavigationScreen.Signup.route)}
             )
         }
 
+        val isLoading = vm.inProgress.value
+        if(isLoading)
+            CommonProgressSpinner()
 
     }
 }

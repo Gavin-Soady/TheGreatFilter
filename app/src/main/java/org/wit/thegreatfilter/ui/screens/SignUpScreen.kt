@@ -1,6 +1,7 @@
 package org.wit.thegreatfilter.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,8 +31,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import org.wit.thegreatfilter.R
 import org.wit.thegreatfilter.TGFViewModel
+import org.wit.thegreatfilter.ui.navigation.NavigationScreen
 import org.wit.thegreatfilter.utils.CheckSignedIn
 import org.wit.thegreatfilter.utils.CommonProgressSpinner
+import org.wit.thegreatfilter.utils.navigateTo
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -125,6 +128,7 @@ fun Signup(navController: NavController, vm: TGFViewModel) {
                 color = Color.Black,
                 modifier = Modifier
                     .padding(8.dp)
+                    .clickable{ navigateTo(navController, NavigationScreen.Login.route) }
 
             )
         }
