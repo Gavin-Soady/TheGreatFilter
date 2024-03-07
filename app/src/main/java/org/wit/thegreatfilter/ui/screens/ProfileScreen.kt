@@ -16,6 +16,11 @@ import androidx.navigation.NavController
 import org.wit.thegreatfilter.ui.navigation.NavMenu
 import org.wit.thegreatfilter.ui.navigation.NavMenuItems
 
+//Shortcut to remove unused imports = CTRL+ ALT + O
+
+enum class  Gender{
+    MALE,FEMALE, ANY
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Profile(navController: NavController) {
@@ -23,18 +28,16 @@ fun Profile(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize()
-    ){
+    ) {
         Text(
             text = "Profile Screen",
             modifier = Modifier.padding(8.dp),
             fontSize = 30.sp,
             fontFamily = FontFamily.SansSerif
         )
-        NavMenu(selectedItem = NavMenuItems.PROFILE, navController = navController )
+        NavMenu(selectedItem = NavMenuItems.PROFILE, navController = navController)
 
 
     }
-
-
 
 }

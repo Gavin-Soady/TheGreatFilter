@@ -1,17 +1,16 @@
 package org.wit.thegreatfilter
 
-
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-//import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.wit.thegreatfilter.data.COLLECTION_USER
 import org.wit.thegreatfilter.data.Event
 import org.wit.thegreatfilter.data.UserData
+import org.wit.thegreatfilter.ui.screens.Gender
 import javax.inject.Inject
 
 
@@ -97,19 +96,26 @@ class TGFViewModel @Inject constructor(
     }
 
 
+
     private fun createOrUpdateProfile(
         name: String? = null,
         username: String? = null,
         bio: String? = null,
-        imageURL: String? = null
+        imageURL: String? = null,
+        gender: Gender? = null,
+        genderPreference: Gender? = null,
     ){
+
+        //Elvis operator
         val uid = auth.currentUser?.uid
         val userData = UserData(
             userId = uid,
-            name = name,
-            username = username,
-            imageURL = imageURL,
-            bio = bio
+            name = name ?: userData.value?.name,
+            username = username ?: userData.value?.username,
+            imageURL = imageURL ?: userData.value?.imageURL,
+            bio = bio ?: userData.value?.bio,
+            gender = gender.toString() ?: userData.value?.gender,
+            genderPreference = genderPreference.toString() ?: userData.value?.genderPreference
         )
         // Find out what name shadowed means
         uid?.let { uid ->
@@ -156,6 +162,14 @@ class TGFViewModel @Inject constructor(
                 }
 
             }
+    }
+
+    fun onLogout() {
+        auth.signOut()
+        signedIn.value = false
+        userData.value = null
+        popupNotification.value = Event( " You have logged out, See you Soon!")
+
     }
 
 
