@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.wit.thegreatfilter.data.COLLECTION_USER
 import org.wit.thegreatfilter.data.Event
@@ -18,18 +19,18 @@ import javax.inject.Inject
 class TGFViewModel @Inject constructor(
     val auth: FirebaseAuth,
     val db: FirebaseFirestore,
-    //val storage: FirebaseStorage
+    val storage: FirebaseStorage
 
     ): ViewModel() {
 
     val inProgress = mutableStateOf(false)
-    val popupNotification = mutableStateOf<Event<String>?>(Event("Test"))
+    val popupNotification = mutableStateOf<Event<String>?>(Event(""))
     val signedIn = mutableStateOf(false)
     val userData = mutableStateOf<UserData?>(null)
 
 
     init{
-        auth.signOut()
+       // auth.signOut()
         val currentUser = auth.currentUser
         signedIn.value = currentUser != null
         currentUser?.uid?.let {
@@ -105,7 +106,6 @@ class TGFViewModel @Inject constructor(
         gender: Gender? = null,
         genderPreference: Gender? = null,
     ){
-
         //Elvis operator
         val uid = auth.currentUser?.uid
         val userData = UserData(
@@ -114,8 +114,8 @@ class TGFViewModel @Inject constructor(
             username = username ?: userData.value?.username,
             imageURL = imageURL ?: userData.value?.imageURL,
             bio = bio ?: userData.value?.bio,
-            gender = gender.toString() ?: userData.value?.gender,
-            genderPreference = genderPreference.toString() ?: userData.value?.genderPreference
+            gender = gender?.toString() ?: userData.value?.gender,
+            genderPreference = genderPreference?.toString() ?: userData.value?.genderPreference
         )
         // Find out what name shadowed means
         uid?.let { uid ->
@@ -172,6 +172,22 @@ class TGFViewModel @Inject constructor(
         userData.value = null
         popupNotification.value = Event( " You have logged out, See you Soon!")
 
+    }
+
+    fun updateProfileData(
+        name: String,
+        username: String,
+        bio: String,
+        gender: Gender,
+        genderPreference: Gender
+    ) {
+        createOrUpdateProfile(
+            name = name,
+            username = username,
+            bio = bio,
+            gender = gender,
+            genderPreference = genderPreference
+        )
     }
 
 

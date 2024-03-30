@@ -38,7 +38,8 @@ fun Navigation() {
     val navController = rememberNavController()
     val vm = hiltViewModel<TGFViewModel>()
     NotificationMessage(vm = vm)
-    NavHost(navController = navController, startDestination = NavigationScreen.Login.route){
+    NavHost(navController = navController, startDestination = NavigationScreen.Profile.route){
+
 
         composable(NavigationScreen.Signup.route){
             Signup(navController,vm)
