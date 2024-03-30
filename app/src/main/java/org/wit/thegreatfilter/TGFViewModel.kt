@@ -29,7 +29,7 @@ class TGFViewModel @Inject constructor(
 
 
     init{
-        //auth.signOut()
+        auth.signOut()
         val currentUser = auth.currentUser
         signedIn.value = currentUser != null
         currentUser?.uid?.let {
@@ -150,7 +150,7 @@ class TGFViewModel @Inject constructor(
 
         inProgress.value = true
         db.collection( COLLECTION_USER).document(uid)
-            // Lambda Find out what that is????
+            // Lambda Find out what that is???? Single Line function
             .addSnapshotListener { value, error ->
 
                 if (error !=null)
@@ -165,6 +165,8 @@ class TGFViewModel @Inject constructor(
     }
 
     fun onLogout() {
+
+        //Built in functionality from Firebase
         auth.signOut()
         signedIn.value = false
         userData.value = null

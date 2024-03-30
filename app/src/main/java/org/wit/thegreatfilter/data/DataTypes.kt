@@ -8,6 +8,7 @@ data class UserData(
     var bio: String? = "",
     var gender: String? = "",
     var genderPreference: String? = "",
+
     var positionTitle: String? = "",
     var yearsExperience: String? = "",
     var minEducationLevel: String? = "",
@@ -21,6 +22,7 @@ data class UserData(
     var interviewRounds: String? = ""
 
 ){
+
     fun toMap() = mapOf(
         "userId" to userId,
         "name" to name,

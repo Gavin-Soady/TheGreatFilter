@@ -64,6 +64,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    //implementation("androidx.compose.material3:material3-android:1.2.1")
 
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.26.1-alpha")
 
@@ -78,6 +79,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.42")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation("com.google.firebase:firebase-firestore:24.5.0")
+
     kapt("com.google.dagger:hilt-android-compiler:2.42")
 
     implementation("io.coil-kt:coil-compose:1.3.2")
