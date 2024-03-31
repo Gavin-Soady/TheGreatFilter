@@ -30,7 +30,7 @@ data class UserData(
         "imageURL" to  imageURL,
         "bio" to bio,
         "gender" to gender,
-        "gender" to genderPreference,
+        "genderPreference" to genderPreference,
 //        "positionTitle" to positionTitle,
 //        "yearsExperience" to yearsExperience,
 //        "minEducationLevel" to minEducationLevel,

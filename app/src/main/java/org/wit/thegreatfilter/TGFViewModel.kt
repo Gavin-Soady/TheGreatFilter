@@ -11,7 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import org.wit.thegreatfilter.data.COLLECTION_USER
 import org.wit.thegreatfilter.data.Event
 import org.wit.thegreatfilter.data.UserData
-import org.wit.thegreatfilter.ui.screens.Gender
+import org.wit.thegreatfilter.ui.screens.GenderType
 import javax.inject.Inject
 
 
@@ -53,10 +53,10 @@ class TGFViewModel @Inject constructor(
                 if (it.isEmpty)
                     auth.createUserWithEmailAndPassword(email, pass)
                         .addOnCompleteListener{task ->
-                            if (task.isSuccessful)
+                            if (task.isSuccessful) {
+                                signedIn.value = true
                                 createOrUpdateProfile(username = username)
-
-                                else
+                            }else
                                     handleException(task.exception, "Signup Failed")
 
                         }
@@ -103,8 +103,8 @@ class TGFViewModel @Inject constructor(
         username: String? = null,
         bio: String? = null,
         imageURL: String? = null,
-        gender: Gender? = null,
-        genderPreference: Gender? = null,
+        gender: GenderType? = null,
+        genderPreference: GenderType? = null,
     ){
         //Elvis operator
         val uid = auth.currentUser?.uid
@@ -127,6 +127,7 @@ class TGFViewModel @Inject constructor(
                     if (it.exists())
                         it.reference.update(userData.toMap())
                             .addOnSuccessListener {
+                                this.userData.value = userData
                                 inProgress.value = false
                             }
                             .addOnFailureListener {
@@ -178,8 +179,8 @@ class TGFViewModel @Inject constructor(
         name: String,
         username: String,
         bio: String,
-        gender: Gender,
-        genderPreference: Gender
+        gender: GenderType,
+        genderPreference: GenderType
     ) {
         createOrUpdateProfile(
             name = name,

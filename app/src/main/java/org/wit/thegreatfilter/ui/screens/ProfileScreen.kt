@@ -1,6 +1,5 @@
 package org.wit.thegreatfilter.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,7 +36,7 @@ import org.wit.thegreatfilter.utils.navigateTo
 
 //Shortcut to remove unused imports = CTRL+ ALT + O
 
-enum class  Gender{
+enum class  GenderType{
     MALE,FEMALE, ANY
 }
 
@@ -50,16 +49,16 @@ fun Profile(navController: NavController, vm: TGFViewModel) {
         val userData = vm.userData.value
         val g = if (userData?.gender.isNullOrEmpty()) "MALE"
         else userData!!.gender!!.uppercase()
-
         val gPref = if (userData?.genderPreference.isNullOrEmpty()) "FEMALE"
         else userData!!.genderPreference!!.uppercase()
         var name by rememberSaveable { mutableStateOf(userData?.name ?: "") }
         var username by rememberSaveable { mutableStateOf(userData?.username ?: "") }
         var bio by rememberSaveable { mutableStateOf(userData?.bio ?: "") }
-        var gender by rememberSaveable { mutableStateOf(Gender.valueOf(g)) }
-        var genderPreference by rememberSaveable { mutableStateOf(Gender.valueOf(gPref)) }
+        var gender by rememberSaveable { mutableStateOf(GenderType.valueOf(g)) }
+        var genderPreference by rememberSaveable { mutableStateOf(GenderType.valueOf(gPref)) }
 
         val scrollState = rememberScrollState()
+
         Column {
             ProfileContent(
                 modifier = Modifier
@@ -88,13 +87,12 @@ fun Profile(navController: NavController, vm: TGFViewModel) {
             )
 
             NavMenu(
-                selectedItem = NavMenuItems.PROFILE,
-                navController = navController
-            )
+               selectedItem = NavMenuItems.PROFILE,
+             navController = navController
+           )
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -104,18 +102,18 @@ fun ProfileContent(
     name: String,
     username: String,
     bio: String,
-    gender: Gender,
-    genderPreference: Gender,
+    gender: GenderType,
+    genderPreference: GenderType,
     onNameChange: (String) -> Unit,
     onUsernameChange: (String) -> Unit,
     onBioChange: (String) -> Unit,
-    onGenderChange: (Gender) -> Unit,
-    onGenderPreferenceChange: (Gender) -> Unit,
+    onGenderChange: (GenderType) -> Unit,
+    onGenderPreferenceChange: (GenderType) -> Unit,
     onSave: () -> Unit,
     onBack: () -> Unit,
     onLogout: () -> Unit
 ) {
-//    val imageUrl = vm.userData.value?.imageURL
+    val imageUrl = vm.userData.value?.imageURL
 
     Column(modifier = modifier) {
         Row(
@@ -127,8 +125,6 @@ fun ProfileContent(
             Text(text = "Back", modifier = Modifier.clickable { onBack.invoke() })
             Text(text = "Save", modifier = Modifier.clickable { onSave.invoke() })
         }
-    }
-
 
         CommonDivider()
 
@@ -146,11 +142,12 @@ fun ProfileContent(
             TextField(
                 value = name,
                 onValueChange = onNameChange,
-                modifier = Modifier.background(Color.Transparent),
-                colors = TextFieldDefaults.textFieldColors(textColor = Color.Black)
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color.Black,
+                    containerColor = Color.Transparent
+                )
             )
         }
-
 
         Row(
             modifier = Modifier
@@ -162,8 +159,10 @@ fun ProfileContent(
             TextField(
                 value = username,
                 onValueChange = onUsernameChange,
-                modifier = Modifier.background(Color.Transparent),
-                colors = TextFieldDefaults.textFieldColors(textColor = Color.Black)
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color.Black,
+                    containerColor = Color.Transparent
+                )
             )
         }
 
@@ -177,8 +176,12 @@ fun ProfileContent(
             TextField(
                 value = bio,
                 onValueChange = onBioChange,
-                modifier = Modifier.height(150.dp).background(Color.Transparent),
-                colors = TextFieldDefaults.textFieldColors(textColor = Color.Black),
+                modifier = Modifier
+                    .height(150.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color.Black,
+                    containerColor = Color.Transparent
+                ),
                 singleLine = false
             )
         }
@@ -197,23 +200,23 @@ fun ProfileContent(
             Column(modifier = Modifier.fillMaxWidth()) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
-                        selected = gender == Gender.MALE,
-                        onClick = { onGenderChange(Gender.MALE) })
+                        selected = gender == GenderType.MALE,
+                        onClick = { onGenderChange(GenderType.MALE) })
                     Text(
-                        text = "Job Seeker",
+                        text = "Man",
                         modifier = Modifier
                             .padding(4.dp)
-                            .clickable { onGenderChange(Gender.MALE) })
+                            .clickable { onGenderChange(GenderType.MALE) })
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
-                        selected = gender == Gender.FEMALE,
-                        onClick = { onGenderChange(Gender.FEMALE) })
+                        selected = gender == GenderType.FEMALE,
+                        onClick = { onGenderChange(GenderType.FEMALE) })
                     Text(
-                        text = "Candidate Seeker",
+                        text = "Woman",
                         modifier = Modifier
                             .padding(4.dp)
-                            .clickable { onGenderChange(Gender.FEMALE) })
+                            .clickable { onGenderChange(GenderType.FEMALE) })
                 }
             }
         }
@@ -227,40 +230,40 @@ fun ProfileContent(
             verticalAlignment = Alignment.Top
         ) {
             Text(
-                text = "Looking for a :", modifier = Modifier
+                text = "Looking for:", modifier = Modifier
                     .width(100.dp)
                     .padding(8.dp)
             )
             Column(modifier = Modifier.fillMaxWidth()) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
-                        selected = genderPreference == Gender.MALE,
-                        onClick = { onGenderPreferenceChange(Gender.MALE) })
+                        selected = genderPreference == GenderType.MALE,
+                        onClick = { onGenderPreferenceChange(GenderType.MALE) })
                     Text(
-                        text = "Job",
+                        text = "Men",
                         modifier = Modifier
                             .padding(4.dp)
-                            .clickable { onGenderPreferenceChange(Gender.MALE) })
+                            .clickable { onGenderPreferenceChange(GenderType.MALE) })
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
-                        selected = genderPreference == Gender.FEMALE,
-                        onClick = { onGenderPreferenceChange(Gender.FEMALE) })
+                        selected = genderPreference == GenderType.FEMALE,
+                        onClick = { onGenderPreferenceChange(GenderType.FEMALE) })
                     Text(
-                        text = "Candidate",
+                        text = "Women",
                         modifier = Modifier
                             .padding(4.dp)
-                            .clickable { onGenderPreferenceChange(Gender.FEMALE) })
+                            .clickable { onGenderPreferenceChange(GenderType.FEMALE) })
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
-                        selected = genderPreference == Gender.ANY,
-                        onClick = { onGenderPreferenceChange(Gender.ANY) })
+                        selected = genderPreference == GenderType.ANY,
+                        onClick = { onGenderPreferenceChange(GenderType.ANY) })
                     Text(
                         text = "Any",
                         modifier = Modifier
                             .padding(4.dp)
-                            .clickable { onGenderPreferenceChange(Gender.ANY) })
+                            .clickable { onGenderPreferenceChange(GenderType.ANY) })
                 }
             }
         }
@@ -276,7 +279,8 @@ fun ProfileContent(
             Text(text = "Logout", modifier = Modifier.clickable { onLogout.invoke() })
         }
 
-  }
+    }
+}
 
 
 //@Composable
