@@ -1,9 +1,11 @@
 package org.wit.thegreatfilter
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
@@ -12,6 +14,7 @@ import org.wit.thegreatfilter.data.COLLECTION_USER
 import org.wit.thegreatfilter.data.Event
 import org.wit.thegreatfilter.data.UserData
 import org.wit.thegreatfilter.ui.screens.GenderType
+import java.util.UUID
 import javax.inject.Inject
 
 
@@ -27,6 +30,9 @@ class TGFViewModel @Inject constructor(
     val popupNotification = mutableStateOf<Event<String>?>(Event(""))
     val signedIn = mutableStateOf(false)
     val userData = mutableStateOf<UserData?>(null)
+
+    val matchProfiles  = mutableStateOf<List<UserData>>(listOf())
+    val inProgressProfiles = mutableStateOf(false)
 
 
     init{
@@ -102,7 +108,7 @@ class TGFViewModel @Inject constructor(
         name: String? = null,
         username: String? = null,
         bio: String? = null,
-        imageURL: String? = null,
+        imageUrl: String? = null,
         gender: GenderType? = null,
         genderPreference: GenderType? = null,
     ){
@@ -112,7 +118,7 @@ class TGFViewModel @Inject constructor(
             userId = uid,
             name = name ?: userData.value?.name,
             username = username ?: userData.value?.username,
-            imageURL = imageURL ?: userData.value?.imageURL,
+            imageURL = imageUrl ?: userData.value?.imageURL,
             bio = bio ?: userData.value?.bio,
             gender = gender?.toString() ?: userData.value?.gender,
             genderPreference = genderPreference?.toString() ?: userData.value?.genderPreference
@@ -191,7 +197,31 @@ class TGFViewModel @Inject constructor(
         )
     }
 
+private fun uploadImage(uri: Uri, onSucess: (Uri) -> Unit){
+    inProgress.value = true
+    val storageRef = storage.reference
+    val uuid = UUID.randomUUID()
+    val imageRef = storageRef.child("images/$uuid")
+    val uploadTask = imageRef.putFile(uri)
 
+    uploadTask
+        .addOnSuccessListener {
+            val result = it.metadata?.reference?.downloadUrl
+            result?.addOnSuccessListener(onSucess)
+        }
+
+        .addOnFailureListener{
+            handleException(it)
+            inProgress.value = false
+        }
+
+}
+
+    fun uploadProfileImage(uri: Uri){
+        uploadImage(uri){
+            createOrUpdateProfile(imageUrl = it.toString())
+        }
+    }
 
     private fun handleException(exception : Exception? = null, customMessage: String = ""){
         Log.e("The Great Filter", "Exception", exception)
@@ -205,4 +235,49 @@ class TGFViewModel @Inject constructor(
 
     }
 
-}
+    private fun  populateCards(){
+        inProgressProfiles.value = true
+        val g  = if (userData.value?.gender.isNullOrEmpty()) "ANY"
+        else userData.value!!.gender!!.uppercase()
+        val gPref  = if (userData.value?.genderPreference.isNullOrEmpty()) "ANY"
+        else userData.value!!.genderPreference!!.uppercase()
+
+        val cardsQuery =
+            when (GenderType.valueOf(gPref)){
+                GenderType.MALE -> db.collection(COLLECTION_USER)
+                    .whereEqualTo("gender",GenderType.MALE)
+                GenderType.FEMALE -> db.collection(COLLECTION_USER)
+                    .whereEqualTo("gender",GenderType.FEMALE)
+                GenderType.ANY -> db.collection(COLLECTION_USER)
+
+            }
+
+        val userGender = GenderType.valueOf(g)
+        cardsQuery.where(
+            Filter.and(
+                Filter.notEqualTo("userId", userData.value?.userId),
+                Filter.or(
+                    Filter.equalTo("genderPreference", userGender),
+                    Filter.equalTo("genderPreference", GenderType.ANY)
+                )
+            )
+        )
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    inProgressProfiles.value = false
+                    handleException(error)
+                }
+                if (value != null) {
+                    val potentials = mutableListOf<UserData>()
+                    value.documents.forEach {
+                        it.toObject<UserData>()?.let { potential ->
+                            var showUser = true
+                            //if (userData.value?.swipesLeft?.contains(potential.userId) == true ||
+                            //userData.value?swipesRight?.contains())
+
+
+                        }
+                    }
+
+                }
+            }}}

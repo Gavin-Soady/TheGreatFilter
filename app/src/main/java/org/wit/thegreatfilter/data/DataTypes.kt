@@ -8,18 +8,21 @@ data class UserData(
     var bio: String? = "",
     var gender: String? = "",
     var genderPreference: String? = "",
+    var swipesLeft: List<String> = listOf(),
+    var swipesRight: List<String> = listOf(),
+    var matches: List<String> = listOf(),
 
-//    var positionTitle: String? = "",
-//    var yearsExperience: String? = "",
-//    var minEducationLevel: String? = "",
-//    var minSalary: String? = "",
-//    var workInOfficeDays: String? = "",
-//    var location: String? = "",
-//    var programmingLanguages: String? = "",
-//    var speakingLanguages: String? = "",
-//    var weekendsAvailable: String? = "",
-//    var mondayToFriday: String? = "",
-//    var interviewRounds: String? = ""
+    var positionTitle: String? = "",
+    var yearsExperience: String? = "",
+    var minEducationLevel: String? = "",
+    var minSalary: String? = "",
+    var workInOfficeDays: String? = "",
+    var location: String? = "",
+    var programmingLanguages: String? = "",
+    var speakingLanguages: String? = "",
+    var weekendsAvailable: String? = "",
+    var mondayToFriday: String? = "",
+    var interviewRounds: String? = ""
 
 ){
 
@@ -31,17 +34,22 @@ data class UserData(
         "bio" to bio,
         "gender" to gender,
         "genderPreference" to genderPreference,
-//        "positionTitle" to positionTitle,
-//        "yearsExperience" to yearsExperience,
-//        "minEducationLevel" to minEducationLevel,
-//        "minSalary" to minSalary,
-//        "workInOfficeDays" to workInOfficeDays,
-//        "location" to  location,
-//        "programmingLanguages" to programmingLanguages,
-//        "speakingLanguages" to speakingLanguages,
-//        "weekendsAvailable" to weekendsAvailable,
-//        "mondayToFriday" to mondayToFriday,
-//        "interviewRounds" to interviewRounds
+        "swipesLeft" to  swipesLeft,
+        "swipesRight" to swipesRight,
+        "matches:" to matches,
+        "genderPreference" to genderPreference,
+
+        "positionTitle" to positionTitle,
+        "yearsExperience" to yearsExperience,
+        "minEducationLevel" to minEducationLevel,
+        "minSalary" to minSalary,
+        "workInOfficeDays" to workInOfficeDays,
+        "location" to  location,
+        "programmingLanguages" to programmingLanguages,
+        "speakingLanguages" to speakingLanguages,
+        "weekendsAvailable" to weekendsAvailable,
+        "mondayToFriday" to mondayToFriday,
+       "interviewRounds" to interviewRounds
     )
 
 }

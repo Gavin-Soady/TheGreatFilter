@@ -1,15 +1,23 @@
 package org.wit.thegreatfilter.ui.screens
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -30,6 +38,7 @@ import org.wit.thegreatfilter.ui.navigation.NavMenu
 import org.wit.thegreatfilter.ui.navigation.NavMenuItems
 import org.wit.thegreatfilter.ui.navigation.NavigationScreen
 import org.wit.thegreatfilter.utils.CommonDivider
+import org.wit.thegreatfilter.utils.CommonImage
 import org.wit.thegreatfilter.utils.CommonProgressSpinner
 import org.wit.thegreatfilter.utils.navigateTo
 
@@ -48,9 +57,9 @@ fun Profile(navController: NavController, vm: TGFViewModel) {
     else {
         val userData = vm.userData.value
         val g = if (userData?.gender.isNullOrEmpty()) "MALE"
-        else userData!!.gender!!.uppercase()
+                else userData!!.gender!!.uppercase()
         val gPref = if (userData?.genderPreference.isNullOrEmpty()) "FEMALE"
-        else userData!!.genderPreference!!.uppercase()
+                    else userData!!.genderPreference!!.uppercase()
         var name by rememberSaveable { mutableStateOf(userData?.name ?: "") }
         var username by rememberSaveable { mutableStateOf(userData?.username ?: "") }
         var bio by rememberSaveable { mutableStateOf(userData?.bio ?: "") }
@@ -128,7 +137,7 @@ fun ProfileContent(
 
         CommonDivider()
 
-        //ProfileImage(imageUrl = imageUrl, vm = vm)
+        ProfileImage(imageUrl = imageUrl, vm = vm)
 
         CommonDivider()
 
@@ -283,37 +292,39 @@ fun ProfileContent(
 }
 
 
-//@Composable
-//fun ProfileImage() {
+@Composable
+fun ProfileImage(imageUrl: String?, vm: TGFViewModel) {
 
-//    val launcher = rememberLauncherForActivityResult(
-//        contract = ActivityResultContracts.GetContent(),
-//    ) { uri: Uri? ->
-//        //uri?.let { vm.uploadProfileImage(uri) }
-//    }
-//
-//    Box(modifier = Modifier.height(IntrinsicSize.Min)) {
-//        Column(modifier = Modifier
-//            .padding(8.dp)
-//            .fillMaxWidth()
-//            .clickable {
-//                launcher.launch("image/*")
-//            },
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//            Card(shape = CircleShape, modifier = Modifier
-//                .padding(8.dp)
-//                .size(100.dp)) {
-//                //CommonImage(data = imageUrl)
-//            }
-//            Text(text = "Change profile picture")
-//        }
-//
-//        val isLoading = vm.inProgress.value
-//        if (isLoading)
-//            CommonProgressSpinner()
-//    }
-//}
+    // lAUNCHER TO UPLOAD PROFILE IMAGE TO DATABASE
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+    ) { uri: Uri? ->
+        uri?.let { vm.uploadProfileImage(uri) }
+    }
+
+    Box(modifier = Modifier.height(IntrinsicSize.Min)) {
+        Column(modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .clickable {
+                launcher.launch("image/*")
+            },
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Card(shape = CircleShape, modifier = Modifier
+                .padding(8.dp)
+                .size(100.dp)) {
+                CommonImage(data = imageUrl)
+            }
+            Text(text = "Change profile picture")
+        }
+
+        val isLoading = vm.inProgress.value
+
+        if (isLoading)
+            CommonProgressSpinner()
+    }
+}
 
 
 
