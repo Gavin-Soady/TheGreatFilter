@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -31,8 +32,10 @@ fun NavMenu(selectedItem: NavMenuItems, navController: NavController) {
       modifier = Modifier
           .fillMaxWidth()
           .wrapContentHeight()
-          .padding(all = 4.dp)
-          .background(Color.White)
+          .padding(all = 0.dp)
+          .background(
+              Color(0x99FFFFFF)
+              )
 
   ){
       for (item in NavMenuItems.values()){
@@ -40,7 +43,7 @@ fun NavMenu(selectedItem: NavMenuItems, navController: NavController) {
               painter = painterResource(id = item.icon),
               contentDescription = null,
               modifier = Modifier
-                  .size(40.dp)
+                  .size(45.dp)
                   .padding(4.dp)
                   .weight(1f)
                   .clickable {

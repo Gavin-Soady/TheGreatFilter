@@ -51,7 +51,7 @@ fun Navigation() {
             Profile(navController,vm)
         }
         composable(NavigationScreen.Match.route){
-            Match(navController)
+            Match(navController,vm)
         }
         composable(NavigationScreen.MatchList.route) {
             MatchList(navController)

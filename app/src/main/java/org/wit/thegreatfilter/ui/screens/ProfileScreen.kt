@@ -243,7 +243,7 @@ fun ProfileContent(
                     .width(100.dp)
                     .padding(8.dp)
             )
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.fillMaxWidth().weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
                         selected = genderPreference == GenderType.MALE,
