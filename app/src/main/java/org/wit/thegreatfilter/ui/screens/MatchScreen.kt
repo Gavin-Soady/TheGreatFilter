@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
@@ -47,8 +46,6 @@ import org.wit.thegreatfilter.ui.navigation.NavMenuItems
 import org.wit.thegreatfilter.utils.CommonImage
 import org.wit.thegreatfilter.utils.CommonProgressSpinner
 import org.wit.thegreatfilter.utils.Direction
-import org.wit.thegreatfilter.utils.MatchProfile
-import org.wit.thegreatfilter.utils.profiles
 import org.wit.thegreatfilter.utils.rememberSwipeableCardState
 import org.wit.thegreatfilter.utils.swipableCard
 //import timber.log.Timber
