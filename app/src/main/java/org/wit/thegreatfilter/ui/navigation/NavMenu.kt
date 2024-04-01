@@ -31,8 +31,10 @@ fun NavMenu(selectedItem: NavMenuItems, navController: NavController) {
       modifier = Modifier
           .fillMaxWidth()
           .wrapContentHeight()
-          .padding(all = 4.dp)
-          .background(Color.White)
+          .padding(all = 0.dp)
+          .background(
+              Color(0x99FFFFFF)
+              )
 
   ){
       for (item in NavMenuItems.values()){
@@ -40,7 +42,7 @@ fun NavMenu(selectedItem: NavMenuItems, navController: NavController) {
               painter = painterResource(id = item.icon),
               contentDescription = null,
               modifier = Modifier
-                  .size(40.dp)
+                  .size(45.dp)
                   .padding(4.dp)
                   .weight(1f)
                   .clickable {

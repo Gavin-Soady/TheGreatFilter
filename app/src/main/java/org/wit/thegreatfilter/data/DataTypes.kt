@@ -8,6 +8,10 @@ data class UserData(
     var bio: String? = "",
     var gender: String? = "",
     var genderPreference: String? = "",
+    var swipesLeft: List<String> = listOf(),
+    var swipesRight: List<String> = listOf(),
+    var matches: List<String> = listOf(),
+
     var positionTitle: String? = "",
     var yearsExperience: String? = "",
     var minEducationLevel: String? = "",
@@ -21,6 +25,7 @@ data class UserData(
     var interviewRounds: String? = ""
 
 ){
+
     fun toMap() = mapOf(
         "userId" to userId,
         "name" to name,
@@ -28,7 +33,12 @@ data class UserData(
         "imageURL" to  imageURL,
         "bio" to bio,
         "gender" to gender,
-        "gender" to genderPreference,
+        "genderPreference" to genderPreference,
+        "swipesLeft" to  swipesLeft,
+        "swipesRight" to swipesRight,
+        "matches:" to matches,
+        "genderPreference" to genderPreference,
+
         "positionTitle" to positionTitle,
         "yearsExperience" to yearsExperience,
         "minEducationLevel" to minEducationLevel,
@@ -39,7 +49,20 @@ data class UserData(
         "speakingLanguages" to speakingLanguages,
         "weekendsAvailable" to weekendsAvailable,
         "mondayToFriday" to mondayToFriday,
-        "interviewRounds" to interviewRounds
+       "interviewRounds" to interviewRounds
     )
 
 }
+data class ChatData(
+
+    var chatId: String? = "",
+    var user1: ChatUser = ChatUser(),
+    var user2: ChatUser = ChatUser()
+)
+
+data class ChatUser(
+
+    var userId: String? = "",
+    var name: String? = "",
+    var imageURL: String? = ""
+)

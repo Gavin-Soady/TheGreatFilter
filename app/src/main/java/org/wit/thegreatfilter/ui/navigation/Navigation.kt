@@ -38,7 +38,8 @@ fun Navigation() {
     val navController = rememberNavController()
     val vm = hiltViewModel<TGFViewModel>()
     NotificationMessage(vm = vm)
-    NavHost(navController = navController, startDestination = NavigationScreen.Signup.route){
+    NavHost(navController = navController, startDestination = NavigationScreen.Login.route){
+
 
         composable(NavigationScreen.Signup.route){
             Signup(navController,vm)
@@ -47,10 +48,10 @@ fun Navigation() {
             Login(navController,vm)
         }
         composable(NavigationScreen.Profile.route){
-            Profile(navController)
+            Profile(navController,vm)
         }
         composable(NavigationScreen.Match.route){
-            Match(navController)
+            Match(navController,vm)
         }
         composable(NavigationScreen.MatchList.route) {
             MatchList(navController)
