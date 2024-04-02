@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
@@ -48,6 +49,7 @@ import org.wit.thegreatfilter.utils.CommonProgressSpinner
 import org.wit.thegreatfilter.utils.Direction
 import org.wit.thegreatfilter.utils.rememberSwipeableCardState
 import org.wit.thegreatfilter.utils.swipableCard
+
 //import timber.log.Timber
 
 
@@ -81,7 +83,7 @@ fun Match(navController: NavController, vm: TGFViewModel) {
                 Modifier
                     .padding(24.dp)
                     //.fillMaxSize()
-                    .aspectRatio(1f)
+                    .aspectRatio(1F)
 
             ) {
                 Column(
@@ -123,7 +125,7 @@ fun Match(navController: NavController, vm: TGFViewModel) {
             val scope = rememberCoroutineScope()
             Row(
                 modifier = Modifier
-                    .padding(4.dp)
+                    .padding(bottom = 4.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -143,6 +145,7 @@ fun Match(navController: NavController, vm: TGFViewModel) {
                         last?.swipe(Direction.Right)
                     }
                 }, icon = Icons.Rounded.Favorite)
+
             }
             NavMenu(selectedItem = NavMenuItems.MATCH, navController = navController)
 
@@ -183,14 +186,60 @@ private fun ProfileCard(
 //                modifier = Modifier.fillMaxSize(),
 //                painter = painterResource(matchProfile.drawableResId),
 //                contentDescription = null)
-            CommonImage(data = matchProfile.imageURL, modifier = Modifier.fillMaxSize())
-            Scrim(Modifier.align(Alignment.BottomCenter))
-            Column(Modifier.align(Alignment.BottomStart)) {
+
+            CommonImage(data = matchProfile.imageURL, modifier = Modifier.fillMaxSize().padding(30.dp).padding(start = 125.dp))
+            Scrim(Modifier.align(Alignment.TopCenter))
+            Column(Modifier.align(Alignment.TopStart)) {
                 Text(text = matchProfile.name ?: matchProfile.username ?: "",
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    //color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(10.dp))
+                    modifier = Modifier.padding(10.dp).padding(start = 12.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp).padding(start = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = matchProfile.positionTitle ?: "", modifier = Modifier.width(110.dp))
+
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp).padding(start = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = matchProfile.programmingLanguages ?: "", modifier = Modifier.width(110.dp))
+
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp).padding(start = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = matchProfile.location ?: "", modifier = Modifier.width(110.dp))
+
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp).padding(start = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = matchProfile.minSalary ?: "", modifier = Modifier.width(110.dp))
+
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp).padding(start = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = matchProfile.bio?: "", modifier = Modifier.width(130.dp))
+
+                }
             }
         }
     }
@@ -201,7 +250,7 @@ private fun ProfileCard(
 fun Scrim(modifier: Modifier = Modifier) {
     Box(
         modifier
-            .background(Brush.verticalGradient(listOf(Color.Transparent, Color.Black)))
-            .height(180.dp)
-            .fillMaxWidth())
+            .background(Brush.horizontalGradient(listOf(Color.White, Color.White, Color.Transparent, Color.Transparent, Color.Transparent  )))
+            //.height(180.dp)
+            .fillMaxSize())
 }

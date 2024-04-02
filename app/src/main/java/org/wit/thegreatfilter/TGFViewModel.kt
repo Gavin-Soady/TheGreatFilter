@@ -50,10 +50,6 @@ class TGFViewModel @Inject constructor(
     var currentChatMessageListener: ListenerRegistration? = null
 
 
-
-
-
-
     init {
         // auth.signOut()
         val currentUser = auth.currentUser
