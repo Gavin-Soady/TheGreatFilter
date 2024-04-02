@@ -283,10 +283,12 @@ class TGFViewModel @Inject constructor(
                     value.documents.forEach {
                         it.toObject<UserData>()?.let { potential ->
                             var showUser = true
-                            if (userData.value?.swipesLeft?.contains(potential.userId) == true || userData.value?.swipesRight?.contains(potential.userId) == true || userData.value?.matches?.contains(potential.userId) == true
+                            if (userData.value?.swipesLeft?.contains(potential.userId) == true ||
+                                    userData.value?.swipesRight?.contains(potential.userId) == true ||
+                                    userData.value?.matches?.contains(potential.userId) == true
                             )
                                 showUser = false
-                                if (showUser)
+                            if (showUser)
                                     potentials.add(potential)
                         }
 
