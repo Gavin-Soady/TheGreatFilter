@@ -29,7 +29,9 @@ sealed class NavigationScreen(val route: String) {
     object Profile : NavigationScreen("profile")
     object Match : NavigationScreen("match")
     object MatchList : NavigationScreen("matchList")
-    object MatchChat : NavigationScreen("matchChat")
+    object MatchChat : NavigationScreen("matchChat/{chatId}"){
+        fun createRoute(id: String) = "matchChat/$id"
+    }
 
 }
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,10 +56,10 @@ fun Navigation() {
             Match(navController,vm)
         }
         composable(NavigationScreen.MatchList.route) {
-            MatchList(navController)
+            MatchList(navController, vm)
         }
         composable(NavigationScreen.MatchChat.route){
-            MatchChat()
+            MatchChat(navController, vm, chatId = "123456")
         }
     }
 

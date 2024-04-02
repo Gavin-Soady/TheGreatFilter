@@ -174,6 +174,7 @@ class TGFViewModel @Inject constructor(
                     userData.value = user
                     inProgress.value = false
                     populateCards()
+                    populateChats()
                 }
 
             }
@@ -338,6 +339,27 @@ class TGFViewModel @Inject constructor(
         }
     }
 
+    private fun populateChats() {
+        inProgressChats.value = true
+        db.collection(COLLECTION_CHAT).where(
+            Filter.or(
+                Filter.equalTo("user1.userId",userData.value?.userId),
+                Filter.equalTo("user2.userId",userData.value?.userId),
+
+            )
+
+        )
+            .addSnapshotListener { value, error ->
+
+                if (error != null)
+                    handleException(error)
+                if (value != null)
+                    chats.value = value.documents.mapNotNull {it.toObject<ChatData>()}
+                inProgressChats.value = false
+            }
+
+
+    }
 
 
 
