@@ -31,7 +31,7 @@ class TGFViewModel @Inject constructor(
     val db: FirebaseFirestore,
     val storage: FirebaseStorage
 
-    ): ViewModel() {
+): ViewModel() {
 
     val inProgress = mutableStateOf(false)
     val popupNotification = mutableStateOf<Event<String>?>(Event(""))
@@ -47,7 +47,7 @@ class TGFViewModel @Inject constructor(
 
     val inProgressChatMessages = mutableStateOf(false)
     val chatMessages = mutableStateOf<List<Message>>(listOf())
-    var currentChatMessagesListener: ListenerRegistration? = null
+    var currentChatMessageListener: ListenerRegistration? = null
 
 
 
@@ -129,6 +129,17 @@ class TGFViewModel @Inject constructor(
         imageUrl: String? = null,
         gender: GenderType? = null,
         genderPreference: GenderType? = null,
+        positionTitle: String? = null,
+        yearsExperience: String? = null,
+        minEducationLevel: String? = null,
+        minSalary: String? = null,
+        workInOfficeDays: String? = null,
+        location: String? = null,
+        weekendsAvailable: String? = null,
+        programmingLanguages: String? = null,
+        speakingLanguages: String? = null,
+        mondayToFriday: String? = null,
+        interviewRounds: String? = null,
     ) {
         //Elvis operator
         val uid = auth.currentUser?.uid
@@ -139,8 +150,20 @@ class TGFViewModel @Inject constructor(
             imageURL = imageUrl ?: userData.value?.imageURL,
             bio = bio ?: userData.value?.bio,
             gender = gender?.toString() ?: userData.value?.gender,
-            genderPreference = genderPreference?.toString() ?: userData.value?.genderPreference
-        )
+            genderPreference = genderPreference?.toString() ?: userData.value?.genderPreference,
+            yearsExperience = yearsExperience?: userData.value?.yearsExperience,
+            minEducationLevel = minEducationLevel?: userData.value?.minEducationLevel,
+            minSalary = minSalary?: userData.value?.minSalary,
+            workInOfficeDays = workInOfficeDays?: userData.value?.workInOfficeDays,
+            location = location?: userData.value?.location,
+            programmingLanguages = programmingLanguages?: userData.value?.programmingLanguages,
+            speakingLanguages = speakingLanguages?: userData.value?.speakingLanguages,
+            weekendsAvailable = weekendsAvailable?: userData.value?.weekendsAvailable,
+            mondayToFriday = mondayToFriday?: userData.value?.mondayToFriday,
+            interviewRounds = interviewRounds?: userData.value?.interviewRounds,
+            positionTitle = positionTitle?: userData.value?.positionTitle,
+
+            )
         // Find out what name shadowed means
         uid?.let { uid ->
             inProgress.value = true
@@ -173,12 +196,14 @@ class TGFViewModel @Inject constructor(
     }
 
     private fun getUserData(uid: String) {
+
         inProgress.value = true
         db.collection(COLLECTION_USER).document(uid)
             // Lambda Find out what that is???? Single Line function
             .addSnapshotListener { value, error ->
+
                 if (error != null)
-                    handleException(error, "Cannot retrieve user data")
+                    handleException(error, " Cannot retrieve user data")
                 if (value != null) {
                     val user = value.toObject<UserData>()
                     userData.value = user
@@ -186,6 +211,7 @@ class TGFViewModel @Inject constructor(
                     populateCards()
                     populateChats()
                 }
+
             }
     }
 
@@ -204,15 +230,39 @@ class TGFViewModel @Inject constructor(
         username: String,
         bio: String,
         gender: GenderType,
-        genderPreference: GenderType
-    ) {
+        genderPreference: GenderType,
+        positionTitle: String,
+        yearsExperience: String,
+        minEducationLevel: String,
+        minSalary: String,
+        workInOfficeDays: String,
+        location: String,
+        programmingLanguages: String,
+        speakingLanguages: String,
+        weekendsAvailable: String,
+        mondayToFriday: String,
+        interviewRounds: String,
+
+        ) {
         createOrUpdateProfile(
             name = name,
             username = username,
             bio = bio,
             gender = gender,
-            genderPreference = genderPreference
-        )
+            genderPreference = genderPreference,
+            positionTitle = positionTitle,
+            yearsExperience = yearsExperience,
+            minEducationLevel = minEducationLevel,
+            minSalary = minSalary,
+            workInOfficeDays = workInOfficeDays,
+            location = location,
+            programmingLanguages = programmingLanguages,
+            speakingLanguages = speakingLanguages,
+            weekendsAvailable = weekendsAvailable,
+            mondayToFriday = mondayToFriday,
+            interviewRounds = interviewRounds,
+
+            )
     }
 
     private fun uploadImage(uri: Uri, onSucess: (Uri) -> Unit) {
@@ -270,6 +320,12 @@ class TGFViewModel @Inject constructor(
 
                 GenderType.ANY -> db.collection(COLLECTION_USER)
 
+                GenderType.JOB_SEEKER-> db.collection(COLLECTION_USER)
+                    .whereEqualTo("gender", GenderType.JOB_SEEKER)
+
+                GenderType.CAN_SEEKER -> db.collection(COLLECTION_USER)
+                    .whereEqualTo("gender", GenderType.CAN_SEEKER)
+
             }
 
         val userGender = GenderType.valueOf(g)
@@ -293,12 +349,12 @@ class TGFViewModel @Inject constructor(
                         it.toObject<UserData>()?.let { potential ->
                             var showUser = true
                             if (userData.value?.swipesLeft?.contains(potential.userId) == true ||
-                                    userData.value?.swipesRight?.contains(potential.userId) == true ||
-                                    userData.value?.matches?.contains(potential.userId) == true
+                                userData.value?.swipesRight?.contains(potential.userId) == true ||
+                                userData.value?.matches?.contains(potential.userId) == true
                             )
                                 showUser = false
                             if (showUser)
-                                    potentials.add(potential)
+                                potentials.add(potential)
                         }
 
                     }
@@ -354,17 +410,22 @@ class TGFViewModel @Inject constructor(
         inProgressChats.value = true
         db.collection(COLLECTION_CHAT).where(
             Filter.or(
-                Filter.equalTo("user1.userId", userData.value?.userId),
-                Filter.equalTo("user2.userId", userData.value?.userId)
-            )
+                Filter.equalTo("user1.userId",userData.value?.userId),
+                Filter.equalTo("user2.userId",userData.value?.userId),
+
+                )
+
         )
             .addSnapshotListener { value, error ->
+
                 if (error != null)
                     handleException(error)
                 if (value != null)
-                    chats.value = value.documents.mapNotNull { it.toObject<ChatData>() }
+                    chats.value = value.documents.mapNotNull {it.toObject<ChatData>()}
                 inProgressChats.value = false
             }
+
+
     }
 
     //@OptIn(ExperimentalComposeUiApi::class)
@@ -374,22 +435,21 @@ class TGFViewModel @Inject constructor(
         db.collection(COLLECTION_CHAT).document(chatId)
             .collection(COLLECTION_MESSAGES).document().set(message)
     }
-fun populateChat(chatId: String){
-    inProgressChatMessages.value = true
-    currentChatMessagesListener = db.collection(COLLECTION_CHAT)
-        .document(chatId).
-        collection(COLLECTION_MESSAGES)
-        .addSnapshotListener { value, error ->
-            if (error !=null)
-                handleException(error)
-            if(value != null)
-                chatMessages.value = value.documents
-                    .mapNotNull { it.toObject<Message>() }
-                    .sortedBy { it.timeStamp}
-        }
-}
+    fun populateChat(chatId: String){
+        inProgressChatMessages.value = true
+        currentChatMessageListener = db.collection(COLLECTION_CHAT)
+            .document(chatId).collection(COLLECTION_MESSAGES)
+            .addSnapshotListener { value, error ->
+                if (error !=null)
+                    handleException(error)
+                if(value != null)
+                    chatMessages.value = value.documents
+                        .mapNotNull { it.toObject<Message>() }
+                        .sortedBy { it.timeStamp}
+            }
+    }
     fun depopulateChat() {
-        currentChatMessagesListener = null
+        currentChatMessageListener = null
         chatMessages.value = listOf()
     }
 
