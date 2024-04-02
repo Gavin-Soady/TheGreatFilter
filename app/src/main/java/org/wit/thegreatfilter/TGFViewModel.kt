@@ -8,14 +8,17 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.wit.thegreatfilter.data.COLLECTION_CHAT
+import org.wit.thegreatfilter.data.COLLECTION_MESSAGES
 import org.wit.thegreatfilter.data.COLLECTION_USER
 import org.wit.thegreatfilter.data.ChatData
 import org.wit.thegreatfilter.data.ChatUser
 import org.wit.thegreatfilter.data.Event
+import org.wit.thegreatfilter.data.Message
 import org.wit.thegreatfilter.data.UserData
 import org.wit.thegreatfilter.ui.screens.GenderType
 import java.util.UUID
@@ -40,6 +43,15 @@ class TGFViewModel @Inject constructor(
 
     val chats = mutableStateOf<List<ChatData>>(listOf())
     val inProgressChats = mutableStateOf(false)
+
+
+    val inProgressChatMessages = mutableStateOf(false)
+    val chatMessages = mutableStateOf<List<Message>>(listOf())
+    var currentChatMessagesListener: ListenerRegistration? = null
+
+
+
+
 
 
     init {
@@ -161,14 +173,12 @@ class TGFViewModel @Inject constructor(
     }
 
     private fun getUserData(uid: String) {
-
         inProgress.value = true
         db.collection(COLLECTION_USER).document(uid)
             // Lambda Find out what that is???? Single Line function
             .addSnapshotListener { value, error ->
-
                 if (error != null)
-                    handleException(error, " Cannot retrieve user data")
+                    handleException(error, "Cannot retrieve user data")
                 if (value != null) {
                     val user = value.toObject<UserData>()
                     userData.value = user
@@ -176,7 +186,6 @@ class TGFViewModel @Inject constructor(
                     populateCards()
                     populateChats()
                 }
-
             }
     }
 
@@ -345,24 +354,44 @@ class TGFViewModel @Inject constructor(
         inProgressChats.value = true
         db.collection(COLLECTION_CHAT).where(
             Filter.or(
-                Filter.equalTo("user1.userId",userData.value?.userId),
-                Filter.equalTo("user2.userId",userData.value?.userId),
-
+                Filter.equalTo("user1.userId", userData.value?.userId),
+                Filter.equalTo("user2.userId", userData.value?.userId)
             )
-
         )
             .addSnapshotListener { value, error ->
-
                 if (error != null)
                     handleException(error)
                 if (value != null)
-                    chats.value = value.documents.mapNotNull {it.toObject<ChatData>()}
+                    chats.value = value.documents.mapNotNull { it.toObject<ChatData>() }
                 inProgressChats.value = false
             }
-
-
     }
 
+    //@OptIn(ExperimentalComposeUiApi::class)
+    fun onSendReply(chatId: String, message: String) {
+        val time = java.util.Calendar.getInstance().time.toString()
+        val message = Message(userData.value?.userId, message, time)
+        db.collection(COLLECTION_CHAT).document(chatId)
+            .collection(COLLECTION_MESSAGES).document().set(message)
+    }
+fun populateChat(chatId: String){
+    inProgressChatMessages.value = true
+    currentChatMessagesListener = db.collection(COLLECTION_CHAT)
+        .document(chatId).
+        collection(COLLECTION_MESSAGES)
+        .addSnapshotListener { value, error ->
+            if (error !=null)
+                handleException(error)
+            if(value != null)
+                chatMessages.value = value.documents
+                    .mapNotNull { it.toObject<Message>() }
+                    .sortedBy { it.timeStamp}
+        }
+}
+    fun depopulateChat() {
+        currentChatMessagesListener = null
+        chatMessages.value = listOf()
+    }
 
 
 }

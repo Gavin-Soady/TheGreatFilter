@@ -1,14 +1,14 @@
 package org.wit.thegreatfilter.data
 
 open class Event<out T>(private val content:T) {
-    var hasBennHandled = false
+    var hasBeenHandled = false
         private set
     fun getContentOrNull(): T? {
 
-        return if (hasBennHandled)
+        return if (hasBeenHandled)
             null
         else{
-                hasBennHandled = true
+                hasBeenHandled = true
                 content
             }
     }

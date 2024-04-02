@@ -59,7 +59,10 @@ fun Navigation() {
             MatchList(navController, vm)
         }
         composable(NavigationScreen.MatchChat.route){
-            MatchChat(navController, vm, chatId = "123456")
+            val chatId = it.arguments?.getString("chatId")
+            chatId?.let {
+                MatchChat(navController = navController, vm = vm, chatId = it)
+            }
         }
     }
 
