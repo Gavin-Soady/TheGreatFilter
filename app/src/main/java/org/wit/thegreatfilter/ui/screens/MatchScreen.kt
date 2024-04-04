@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -47,6 +46,7 @@ import org.wit.thegreatfilter.ui.navigation.NavMenuItems
 import org.wit.thegreatfilter.utils.CommonImage
 import org.wit.thegreatfilter.utils.CommonProgressSpinner
 import org.wit.thegreatfilter.utils.Direction
+import org.wit.thegreatfilter.utils.ProfileCardDivider
 import org.wit.thegreatfilter.utils.rememberSwipeableCardState
 import org.wit.thegreatfilter.utils.swipableCard
 
@@ -58,6 +58,7 @@ import org.wit.thegreatfilter.utils.swipableCard
 fun Match(navController: NavController, vm: TGFViewModel) {
 
     val inProgress = vm.inProgressProfiles.value
+    //val scrollState = rememberScrollState()
     if (inProgress)
         CommonProgressSpinner()
     else{
@@ -75,15 +76,15 @@ fun Match(navController: NavController, vm: TGFViewModel) {
                     )
                 )
         ) {
-            Spacer(modifier = Modifier.height(1.dp))
+            Spacer(modifier = Modifier.height(0.5.dp))
 
             //Cards
             val states = profiles.map { it to rememberSwipeableCardState() }
             Box(
                 Modifier
-                    .padding(24.dp)
+                    .padding(24.dp).height(470.dp)
                     //.fillMaxSize()
-                    .aspectRatio(1F)
+                    //.aspectRatio(1f)
 
             ) {
                 Column(
@@ -187,27 +188,38 @@ private fun ProfileCard(
 //                painter = painterResource(matchProfile.drawableResId),
 //                contentDescription = null)
 
-            CommonImage(data = matchProfile.imageURL, modifier = Modifier.fillMaxSize().padding(30.dp).padding(start = 125.dp))
+            CommonImage(data = matchProfile.imageURL, modifier = Modifier.fillMaxSize().padding(30.dp).padding(start = 100.dp).padding(bottom = 100.dp).padding(top = 30.dp))
             Scrim(Modifier.align(Alignment.TopCenter))
-            Column(Modifier.align(Alignment.TopStart)) {
-                Text(text = matchProfile.name ?: matchProfile.username ?: "",
-                    //color = MaterialTheme.colorScheme.onPrimary,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(10.dp).padding(start = 12.dp))
+            Column(Modifier.align(Alignment.TopStart).padding(start = 20.dp)) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = matchProfile.name ?: matchProfile.username ?: "",
+                        //color = MaterialTheme.colorScheme.onPrimary,
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(top = 12.dp, start = 10.dp, bottom = 12.dp)
+                    )
+
+                }
+
+                ProfileCardDivider()
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp).padding(start = 12.dp),
+                        .padding(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+
                     Text(text = matchProfile.positionTitle ?: "", modifier = Modifier.width(110.dp))
 
                 }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp).padding(start = 12.dp),
+                        .padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(text = matchProfile.programmingLanguages ?: "", modifier = Modifier.width(110.dp))
@@ -216,7 +228,7 @@ private fun ProfileCard(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp).padding(start = 12.dp),
+                        .padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(text = matchProfile.location ?: "", modifier = Modifier.width(110.dp))
@@ -225,7 +237,7 @@ private fun ProfileCard(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp).padding(start = 12.dp),
+                        .padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(text = matchProfile.minSalary ?: "", modifier = Modifier.width(110.dp))
@@ -234,10 +246,10 @@ private fun ProfileCard(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp).padding(start = 12.dp),
+                        .padding(10.dp).weight(1f),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = matchProfile.bio?: "", modifier = Modifier.width(130.dp))
+                    Text(text = matchProfile.bio?: "", modifier = Modifier.width(400.dp))
 
                 }
             }
@@ -252,5 +264,6 @@ fun Scrim(modifier: Modifier = Modifier) {
         modifier
             .background(Brush.horizontalGradient(listOf(Color.White, Color.White, Color.Transparent, Color.Transparent, Color.Transparent  )))
             //.height(180.dp)
-            .fillMaxSize())
+            .fillMaxSize()
+            .background(Brush.verticalGradient(listOf(Color.White,Color.Transparent,Color.Transparent, Color.Transparent,  Color.Transparent, Color.White, Color.White,  ))))
 }

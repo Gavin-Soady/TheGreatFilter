@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import org.wit.thegreatfilter.TGFViewModel
 import org.wit.thegreatfilter.ui.navigation.NavMenu
@@ -52,7 +53,10 @@ fun MatchList(navController: NavController, vm: TGFViewModel) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(text = "No chats available")
+                    Text(text = "No chats available yet",fontSize = 22.sp,
+                        fontWeight = FontWeight.Medium,)
+                    Text(text = "Better Get Swiping!!!", fontSize = 22.sp,
+                        fontWeight = FontWeight.Medium,)
                 }
             else {
                 LazyColumn(modifier = Modifier.weight(1f)) {

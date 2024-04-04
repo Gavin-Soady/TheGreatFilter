@@ -8,7 +8,7 @@ data class MatchProfile (
     @DrawableRes val drawableResId: Int,
 
     )
-
+//Dummy Local Data
 val profiles = listOf(
     MatchProfile("Erlich Bachman", R.drawable.erlich),
     MatchProfile("Richard Hendricks", R.drawable.richard),

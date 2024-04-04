@@ -85,7 +85,7 @@ fun Profile(navController: NavController, vm: TGFViewModel) {
 
         val scrollState = rememberScrollState()
 
-        Column {
+        Column (){
             ProfileContent(
                 modifier = Modifier
                     .weight(1f)
